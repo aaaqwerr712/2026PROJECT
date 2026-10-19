@@ -20,7 +20,7 @@ public static class Seed
         Make(6,"山間茶屋","地方工藝","用一杯茶的時間，認識土地與人的連結。","tea",50)
     ];
     private static Place Make(int id, string name, string category, string summary, string theme, int minutes) => new() {
-        Name=name, Category=category, Summary=summary, Theme=theme, VisitMinutes=minutes,
+        Name=name, Category=category, Summary=summary, Theme=theme, VisitMinutes=minutes, IsPublished=true,
         Description=summary+" 這是虛構的示範據點，用來展示景點介紹、路線串接與 API 資料流程。正式發布活動前，請替換成經確認的場域資料、開放時間及交通資訊。",
         Address="示範場域・非實際營業地址", Latitude=23.7+id*0.01, Longitude=120.9+id*0.01
     };

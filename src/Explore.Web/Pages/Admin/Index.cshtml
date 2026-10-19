@@ -1,0 +1,25 @@
+@page "/admin"
+@model Explore.Web.Pages.Admin.IndexModel
+@{ ViewData["Title"] = "景點管理"; }
+<div class="admin-title-row">
+    <div><span class="eyebrow">YOUR LOCAL STORIES</span><h1>景點管理</h1><p class="muted">從草稿到發布，讓每個地方都有自己的篇章。</p></div>
+    <a class="button" href="/admin/places/edit">＋ 新增景點</a>
+</div>
+@if (Model.Saved) { <div class="success-message" role="status">景點已儲存。已發布的內容可以在前台查看，草稿僅管理員可見。</div> }
+@if (Model.Error) { <div class="notice" role="alert">暫時無法取得景點資料，請重新整理。</div> }
+<div class="admin-stats"><span><strong>@Model.Places.Length</strong> 全部景點</span><span><strong>@Model.Places.Count(p => p.IsPublished)</strong> 已發布</span><span><strong>@Model.Places.Count(p => !p.IsPublished)</strong> 草稿</span></div>
+<div class="admin-list">
+@foreach (var place in Model.Places)
+{
+    <article class="admin-row">
+        <div class="admin-thumbnail place-art @place.Theme">
+            @if (!string.IsNullOrWhiteSpace(place.ImageUrl)) { <img src="@place.ImageUrl" alt="" loading="lazy" referrerpolicy="no-referrer" /> }
+            else { <span class="landscape"></span> }
+        </div>
+        <div class="admin-row-content"><span class="category">@place.Category</span><h2>@place.Name</h2><p>@place.Summary</p></div>
+        <span class="status-badge @(place.IsPublished ? "published" : "draft")">@(place.IsPublished ? "已發布" : "草稿")</span>
+        <div class="row-actions"><a href="/admin/places/edit/@place.Id">編輯 →</a>@if (place.IsPublished) { <a class="muted" href="/places/@place.Id">查看前台 ↗</a> }</div>
+    </article>
+}
+@if (!Model.Error && Model.Places.Length == 0) { <div class="notice">還沒有景點，從「新增景點」開始。</div> }
+</div>

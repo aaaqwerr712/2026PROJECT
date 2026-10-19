@@ -1,0 +1,42 @@
+@page "/admin/places/edit/{id:int?}"
+@model Explore.Web.Pages.Admin.EditModel
+@{ ViewData["Title"] = Model.Id.HasValue ? "編輯景點" : "新增景點"; }
+<a href="/admin" class="back-link">← 回到景點管理</a>
+<div class="admin-title-row"><div><span class="eyebrow">EDIT A LOCAL STORY</span><h1>@ViewData["Title"]</h1></div><span class="status-badge @(Model.Input.IsPublished ? "published" : "draft")">@(Model.Input.IsPublished ? "已發布" : "草稿")</span></div>
+@if (Model.LoadError)
+{
+    <div class="notice" role="alert">暫時無法取得此景點。<a href="/admin">返回管理列表</a></div>
+}
+else
+{
+<form method="post" class="admin-form editor-form">
+    <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+    <div class="editor-columns">
+        <section class="editor-panel">
+            <h2>01 / 基本內容</h2>
+            <label asp-for="Input.Name">景點名稱 <span>必填</span></label><input asp-for="Input.Name" required maxlength="100" />
+            <label asp-for="Input.Category">分類 <span>必填</span></label><input asp-for="Input.Category" list="categories" required maxlength="40" />
+            <datalist id="categories"><option>文化走讀</option><option>自然風景</option><option>地方工藝</option></datalist>
+            <label asp-for="Input.Summary">簡短介紹 <span>300 字內</span></label><textarea asp-for="Input.Summary" rows="3" required maxlength="300"></textarea>
+            <label asp-for="Input.Description">詳細介紹 <span>4,000 字內</span></label><textarea asp-for="Input.Description" rows="7" required maxlength="4000"></textarea>
+            <label asp-for="Input.Address">地址 <span>必填</span></label><input asp-for="Input.Address" required maxlength="200" />
+            <div class="field-pair">
+                <div><label asp-for="Input.Latitude">緯度</label><input asp-for="Input.Latitude" type="number" min="-90" max="90" step="any" required /></div>
+                <div><label asp-for="Input.Longitude">經度</label><input asp-for="Input.Longitude" type="number" min="-180" max="180" step="any" required /></div>
+            </div>
+            <label asp-for="Input.VisitMinutes">建議停留時間（分鐘）</label><input asp-for="Input.VisitMinutes" type="number" min="5" max="480" required />
+        </section>
+        <aside class="editor-panel">
+            <h2>02 / 照片與發布</h2>
+            <label asp-for="Input.ImageUrl">照片網址 <span>選填</span></label><input asp-for="Input.ImageUrl" type="url" maxlength="2048" placeholder="https://..." />
+            <p class="form-hint">使用有權使用的 HTTPS 圖片網址。留白時顯示插畫，這一版尚未提供照片上傳。</p>
+            @if (!string.IsNullOrWhiteSpace(Model.Input.ImageUrl) && Uri.TryCreate(Model.Input.ImageUrl, UriKind.Absolute, out var imageUri) && imageUri.Scheme == "https")
+            { <img class="editor-photo" src="@Model.Input.ImageUrl" alt="目前儲存的景點照片" referrerpolicy="no-referrer" /> }
+            <label asp-for="Input.Theme">預設插畫色系</label>
+            <select asp-for="Input.Theme"><option value="forest">森林綠</option><option value="oldtown">老街磚紅</option><option value="craft">工藝棕</option><option value="river">河岸青</option><option value="coast">海岸藍</option><option value="tea">茶園綠</option></select>
+            <div class="publish-control"><label class="checkbox-label"><input asp-for="Input.IsPublished" /> 發布到網站</label><p class="form-hint">勾選並儲存後，網站及公開 API 就能讀取這個景點。取消勾選可將內容改回草稿。</p></div>
+            <div class="editor-actions"><button type="submit" class="button">儲存景點 →</button><a href="/admin">取消</a></div>
+        </aside>
+    </div>
+</form>
+}

@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 namespace Explore.Shared;
 
-public class Place
+public class Place : IValidatableObject
 {
     public int Id { get; set; }
     [Required, StringLength(100)] public string Name { get; set; } = "";
@@ -15,6 +15,16 @@ public class Place
     [Range(-180, 180)] public double Longitude { get; set; }
     [Range(5, 480)] public int VisitMinutes { get; set; } = 30;
     [StringLength(20)] public string Theme { get; set; } = "forest";
+    [StringLength(2048)] public string ImageUrl { get; set; } = "";
+    public bool IsPublished { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext context)
+    {
+        if (!string.IsNullOrWhiteSpace(ImageUrl) &&
+            (!Uri.TryCreate(ImageUrl, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps ||
+             !string.IsNullOrEmpty(uri.UserInfo)))
+            yield return new ValidationResult("照片網址必須是完整的 HTTPS 網址。", [nameof(ImageUrl)]);
+    }
 }
 
 public record Trail(int Id, string Name, string Description, int Minutes, int[] PlaceIds);

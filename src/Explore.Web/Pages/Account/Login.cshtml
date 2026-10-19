@@ -1,0 +1,24 @@
+@page "/account/login"
+@model Explore.Web.Pages.Account.LoginModel
+@{ ViewData["Title"] = "管理員登入"; }
+<section class="login-panel">
+    <span class="eyebrow">WELCOME BACK</span>
+    <h1>把地方的故事，<br />好好整理。</h1>
+    <p class="muted">登入管理室，編輯景點與發布內容。</p>
+    @if (!Model.Configured)
+    {
+        <div class="notice" role="alert">管理員帳號尚未設定，請先由專案管理者設定登入資訊。</div>
+    }
+    else
+    {
+        <form method="post" class="admin-form">
+            <div asp-validation-summary="All" class="validation-summary" role="alert"></div>
+            <label asp-for="Username">帳號</label>
+            <input asp-for="Username" autocomplete="username" required maxlength="100" />
+            <label asp-for="Password">密碼</label>
+            <input asp-for="Password" type="password" autocomplete="current-password" required maxlength="256" />
+            <button class="button" type="submit">登入管理室 →</button>
+        </form>
+        <p class="form-hint">本機開發的登入資訊存於 App_Data/admin-login.txt。</p>
+    }
+</section>

@@ -19,4 +19,6 @@ jobs:
       - name: API and website smoke tests
         shell: pwsh
         run: ./scripts/smoke.ps1
+      - name: Admin workflow and schema upgrade tests
+        run: python3 scripts/admin-smoke.py artifacts/publish
       - run: docker build -t local-journal:test .

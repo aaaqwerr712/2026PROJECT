@@ -35,7 +35,7 @@
 
 ## 後續正式化
 
-EnsureCreated 只用於新資料庫建表，不會升級既有 schema；修改資料表前先改用 migrations 並備份。管理 API 金鑰僅供可信管理端，會員與集章功能應另接正式的身份認證。跨來源網站需要精確的 Cors__Origins__0 設定。此版本只有公用導覽資料，沒有會員與登入 Cookie；加入登入後另需持久保存 Data Protection keys。
+EnsureCreated 只用於新資料庫建表，不會升級既有 schema；修改資料表前先改用 migrations 並備份。管理 API 金鑰僅供可信管理端，會員與集章功能應另接正式的身份認證。跨來源網站需要精確的 Cors__Origins__0 設定。此版本已有管理員登入 Cookie；Data Protection keys 存於 /app/App_Data/keys，需和資料庫一併持久保存。正式環境需設定 Admin__Username 與 Admin__PasswordHash，並使用 HTTPS。詳見 admin.md。
 
 官方參考：
 - https://learn.microsoft.com/en-us/azure/app-service/configure-custom-container

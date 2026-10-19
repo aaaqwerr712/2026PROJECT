@@ -24,5 +24,7 @@ X-Admin-Key: {{adminKey}}
   "latitude": 25.03,
   "longitude": 121.56,
   "visitMinutes": 30,
-  "theme": "oldtown"
+  "theme": "oldtown",
+  "imageUrl": "",
+  "isPublished": false
 }

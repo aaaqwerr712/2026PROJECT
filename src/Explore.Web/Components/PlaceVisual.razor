@@ -1,0 +1,13 @@
+<div class="place-art @(Large ? "large" : "") @Place.Theme">
+    <span class="landscape" aria-hidden="true"></span>
+    <span class="place-number" aria-hidden="true">@(Place.Id.ToString("00"))</span>
+    @if (!string.IsNullOrWhiteSpace(Place.ImageUrl))
+    {
+        <img class="place-photo" src="@Place.ImageUrl" alt="@Place.Name" loading="lazy"
+             referrerpolicy="no-referrer" onerror="this.hidden=true" />
+    }
+</div>
+@code {
+    [Parameter, EditorRequired] public Place Place { get; set; } = default!;
+    [Parameter] public bool Large { get; set; }
+}

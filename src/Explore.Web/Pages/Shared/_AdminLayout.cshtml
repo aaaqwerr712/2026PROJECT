@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>@ViewData["Title"]｜地方誌管理室</title>
+    <link rel="stylesheet" href="/app.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+    <header class="admin-header">
+        <a class="brand" href="/admin">地方誌<span>CONTENT STUDIO</span></a>
+        <nav aria-label="後台選單">
+            <a href="/">查看網站 ↗</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a href="/admin">景點管理</a>
+                <form method="post" action="/account/logout">
+                    @Html.AntiForgeryToken()
+                    <button class="text-button" type="submit">登出</button>
+                </form>
+            }
+        </nav>
+    </header>
+    <main class="admin-main">@RenderBody()</main>
+    <footer class="admin-footer">地方誌管理室 · 儲存後資料會保留在本機資料庫</footer>
+</body>
+</html>

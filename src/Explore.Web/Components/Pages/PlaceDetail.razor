@@ -4,7 +4,7 @@
 <section class="section detail"><a href="/">← 回到探索景點</a>
 @if(error){<div class="notice" role="alert">暫時無法載入資料，請重新整理再試。</div>}
 else if(place is null){<h1>找不到這個景點</h1><p>請回到景點清單選擇其他據點。</p>}
-else{<div class="detail-grid"><div class="place-art large @place.Theme"><span class="landscape"></span><span class="place-number">0@place.Id</span></div><div><span class="category">@place.Category / DEMO PLACE</span><h1>@place.Name</h1><p class="lead">@place.Summary</p><p>@place.Description</p><dl><dt>建議停留</dt><dd>@place.VisitMinutes 分鐘</dd><dt>場域位置</dt><dd>@place.Address</dd></dl><p class="notice">此據點為虛構示範，尚未提供實際導航。</p><a class="button" href="/trails">探索主題路線 ↗</a></div></div>}
+else{<div class="detail-grid"><PlaceVisual Place="place" Large="true" /><div><span class="category">@place.Category / DEMO PLACE</span><h1>@place.Name</h1><p class="lead">@place.Summary</p><p>@place.Description</p><dl><dt>建議停留</dt><dd>@place.VisitMinutes 分鐘</dd><dt>場域位置</dt><dd>@place.Address</dd></dl><p class="notice">此據點為虛構示範，尚未提供實際導航。</p><a class="button" href="/trails">探索主題路線 ↗</a></div></div>}
 </section>
 @code{[Parameter]public int Id{get;set;}Place? place;bool error;
 protected override async Task OnParametersSetAsync(){error=false;try{place=await Api.GetPlaceAsync(Id);}catch(HttpRequestException){error=true;}catch(TaskCanceledException){error=true;}}}
