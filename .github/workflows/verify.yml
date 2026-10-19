@@ -1,0 +1,22 @@
+name: Build and verify
+on:
+  push:
+    branches: [joe, main]
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet restore Explore.slnx
+      - run: dotnet build Explore.slnx -c Release --no-restore
+      - run: dotnet publish src/Explore.Web -c Release --no-restore -o artifacts/publish
+      - name: API and website smoke tests
+        shell: pwsh
+        run: ./scripts/smoke.ps1
+      - run: docker build -t local-journal:test .
