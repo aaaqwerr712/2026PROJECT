@@ -1,0 +1,25 @@
+# Prepared locally. Not yet deployed or pushed.
+# Free preview only: SQLite data resets when Render replaces the instance.
+services:
+  - type: web
+    name: 2026project
+    runtime: docker
+    plan: free
+    region: singapore
+    repo: https://github.com/aaaqwerr712/2026PROJECT
+    branch: joe
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: off
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_HTTP_PORTS
+        value: "8080"
+      - key: Api__BaseUrl
+        value: http://localhost:8080/
+      - key: Database__Provider
+        value: Sqlite
+      - key: Database__SeedDemo
+        value: "true"
+      - key: ConnectionStrings__Explore
+        value: Data Source=/app/App_Data/explore.db
