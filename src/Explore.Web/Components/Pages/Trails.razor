@@ -1,0 +1,8 @@
+@page "/trails"
+@inject ExploreApiClient Api
+<PageTitle>主題路線｜地方誌</PageTitle>
+<section class="section"><span class="eyebrow">CURATED WALKS</span><h1>循著故事，慢慢走。</h1><p class="lead">兩條主題路線，兩種認識地方的方式。</p>
+@if(error){<div class="notice">暫時無法取得路線，請重新整理再試。</div>}
+@foreach(var t in trails){<article class="route-card"><span class="route-index">0@t.Id</span><div><span class="category">@t.PlaceIds.Length 個停留點 · 約 @t.Minutes 分鐘</span><h2>@t.Name</h2><p>@t.Description</p><ol class="stops">@foreach(var id in t.PlaceIds){<li><a href="/places/@id">@(places.FirstOrDefault(p=>p.Id==id)?.Name ?? "景點資料待更新") ↗</a></li>}</ol><small>示範路線，時間含預估移動；非經實地驗證的旅遊建議。</small></div></article>}
+</section>
+@code{Trail[] trails=[];Place[] places=[];bool error;protected override async Task OnInitializedAsync(){try{trails=await Api.GetTrailsAsync();places=await Api.GetPlacesAsync();}catch(HttpRequestException){error=true;}catch(TaskCanceledException){error=true;}}}

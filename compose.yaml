@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      Api__BaseUrl: http://localhost:8080/
+      Database__Provider: Sqlite
+      ConnectionStrings__Explore: Data Source=/app/App_Data/explore.db
+      Admin__ApiKey: ${ADMIN_API_KEY:-}
+    volumes:
+      - explore-data:/app/App_Data
+    restart: unless-stopped
+volumes:
+  explore-data:

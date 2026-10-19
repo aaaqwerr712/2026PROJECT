@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Explore.Shared/Explore.Shared.csproj" />
+    <Project Path="src/Explore.Web/Explore.Web.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:5080
+# 在 HTTP client 的私有環境設定 adminKey，不要提交真實金鑰。
+@adminKey = REPLACE_IN_PRIVATE_ENVIRONMENT
+
+GET {{baseUrl}}/api/v1/places
+
+###
+GET {{baseUrl}}/api/v1/places/1
+
+###
+GET {{baseUrl}}/api/v1/trails
+
+###
+POST {{baseUrl}}/api/v1/admin/places
+Content-Type: application/json
+X-Admin-Key: {{adminKey}}
+
+{
+  "name": "測試景點",
+  "category": "文化走讀",
+  "summary": "這是一個串接 API 的測試景點。",
+  "description": "替換成經確認的景點介紹。",
+  "address": "測試地址",
+  "latitude": 25.03,
+  "longitude": 121.56,
+  "visitMinutes": 30,
+  "theme": "oldtown"
+}
