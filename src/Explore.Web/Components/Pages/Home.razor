@@ -4,17 +4,32 @@
 <PageTitle>地方誌｜走進地方，看見故事</PageTitle>
 <section class="editorial section"><div class="section-kicker"><span>本期精選</span><span>VOL. 01 — 地方的日常</span></div><div class="feature-grid"><a class="feature-story" href="/places/1"><div class="feature-image oldtown" role="img" aria-label="老街建築示意插畫"><div class="buildings"></div><span class="image-credit">地方想像 / 示意插畫</span></div><span class="category">文化走讀</span><h1>轉進一條老街，<br />重新讀懂我們生活的地方</h1><p>紅磚、木窗與街角的日常，藏著一座城的記憶。從一段散步開始，聽見地方還在繼續的故事。</p><span class="read-more">走進時光街屋 ↗</span></a><aside class="feature-aside"><span class="aside-label">沿途，值得停留</span><a href="/places/4"><span class="category">自然風景</span><h2>走進綠蔭深處，<br />把城市的聲音留在身後</h2><p>不用趕路。給自己一段只聽見風與腳步的時間。</p><span class="meta">森林步道 · 約 60 分鐘</span></a><a href="/places/2"><span class="category">地方工藝</span><h2>一雙手的溫度，<br />一個地方的生活技藝</h2><p>在巷口的工作室，認識那些持續創作的人。</p><span class="meta">工藝走訪 · 約 45 分鐘</span></a><a class="aside-route" href="/trails">把散落的故事，串成一條路線 <span>→</span></a></aside></div></section>
 <section id="explore" class="section"><div class="section-heading"><h2>探索地方<span>DISCOVER</span></h2><span class="muted">每個地方，都值得被好好認識。</span></div>
-<div class="filters"><div class="chips">@foreach(var item in categories){<button class="@(category == item ? "selected" : "")" @onclick="() => Select(item)">@item</button>}</div><form @onsubmit="Load" @onsubmit:preventDefault><label class="sr-only" for="search">搜尋景點</label><input id="search" @bind="search" placeholder="搜尋景點、地方故事…" /><button type="submit">搜尋 ↗</button></form></div>
-@if(loading){<p role="status">正在載入地方故事…</p>}
-else if(error){<div class="notice" role="alert">暫時無法取得資料。<button @onclick="Load">重新載入</button></div>}
-else{<p class="result-count" aria-live="polite">@places.Length 個探索提案 <span>DEMO COLLECTION</span></p><div class="place-grid">@foreach(var p in places){<a href="/places/@p.Id" class="place-card"><div class="place-art @p.Theme" aria-hidden="true"><span class="landscape"></span><span class="place-number">0@p.Id</span></div><div class="card-copy"><span class="category">@p.Category</span><h3>@p.Name</h3><p>@p.Summary</p><div class="card-meta">示範據點 <span>建議停留 @p.VisitMinutes 分鐘 ↗</span></div></div></a>}</div>@if(places.Length==0){<div class="notice">找不到符合的景點，試試其他關鍵字。<button @onclick="Reset">清除篩選</button></div>}}
+<div class="filters"><div class="chips">@foreach(var item in categories){<button aria-pressed="@(category == item)" class="@(category == item ? "selected" : "")" @onclick="() => Select(item)">@item</button>}</div><form @onsubmit="Load" @onsubmit:preventDefault><label class="sr-only" for="search">搜尋景點</label><input id="search" @bind="search" placeholder="搜尋景點、地方故事…" /><button type="submit">搜尋 ↗</button></form></div>
+<div class="loading-status" role="status" aria-live="polite">@if(loading){<span class="loading-dot" aria-hidden="true"></span><span>正在載入地方故事…</span>}</div>
+@if(error){<div class="notice" role="alert">暫時無法取得資料。<button @onclick="Load">重新載入</button></div>}
+else{<p class="result-count" aria-live="polite">@places.Length 個探索提案 <span>DEMO COLLECTION</span></p><div @key="resultsVersion" class="place-grid" aria-busy="@loading">@foreach(var p in places){<a href="/places/@p.Id" class="place-card"><div class="place-art @p.Theme" aria-hidden="true"><span class="landscape"></span><span class="place-number">0@p.Id</span></div><div class="card-copy"><span class="category">@p.Category</span><h3>@p.Name</h3><p>@p.Summary</p><div class="card-meta">示範據點 <span>建議停留 @p.VisitMinutes 分鐘 ↗</span></div></div></a>}</div>@if(places.Length==0){<div class="notice">找不到符合的景點，試試其他關鍵字。<button @onclick="Reset">清除篩選</button></div>}}
 </section>
 <section class="trail-banner"><span class="eyebrow">WALK WITH A STORY</span><h2>用一個午後，<br />走進地方的日常。</h2><p>兩條主題路線，從老城巷弄到山海之間，找到適合你的步調。</p><a href="/trails" class="button">探索主題路線 ↗</a></section>
 @code{
-Place[] places=[];string search="",category="全部景點";bool loading=true,error;
+Place[] places=[];string search="",category="全部景點";bool loading=true,error;int requestVersion,resultsVersion;
 readonly string[] categories=["全部景點","文化走讀","自然風景","地方工藝"];
 protected override async Task OnInitializedAsync()=>await Load();
-async Task Select(string value){category=value;await Load();}
+async Task Select(string value){if(category==value)return;category=value;await Load();}
 async Task Reset(){search="";category="全部景點";await Load();}
-async Task Load(){loading=true;error=false;try{places=await Api.GetPlacesAsync(search,category=="全部景點"?null:category);}catch(HttpRequestException){error=true;}catch(TaskCanceledException){error=true;}finally{loading=false;}}
+async Task Load()
+{
+    var version = ++requestVersion;
+    loading = true;
+    error = false;
+    try
+    {
+        var result = await Api.GetPlacesAsync(search, category == "全部景點" ? null : category);
+        if (version != requestVersion) return;
+        places = result;
+        resultsVersion++;
+    }
+    catch (HttpRequestException) { if (version == requestVersion) error = true; }
+    catch (TaskCanceledException) { if (version == requestVersion) error = true; }
+    finally { if (version == requestVersion) loading = false; }
+}
 }
