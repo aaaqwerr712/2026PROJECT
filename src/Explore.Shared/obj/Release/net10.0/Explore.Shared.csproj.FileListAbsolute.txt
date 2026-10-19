@@ -1,0 +1,12 @@
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\bin\Release\net10.0\Explore.Shared.deps.json
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\bin\Release\net10.0\Explore.Shared.dll
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\bin\Release\net10.0\Explore.Shared.pdb
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\Explore.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\Explore.Shared.AssemblyInfoInputs.cache
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\Explore.Shared.AssemblyInfo.cs
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\Explore.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\Explore.Shared.sourcelink.json
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\Explore.Shared.dll
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\refint\Explore.Shared.dll
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\Explore.Shared.pdb
+C:\Users\Administrator\Documents\GitHub\2026PROJECT\src\Explore.Shared\obj\Release\net10.0\ref\Explore.Shared.dll

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)\sqlite\3.53.4\buildTransitive\net9.0\SQLite.targets" Condition="Exists('$(NuGetPackageRoot)\sqlite\3.53.4\buildTransitive\net9.0\SQLite.targets')" />
+    <Import Project="$(NuGetPackageRoot)\microsoft.identity.client.nativeinterop\0.20.6\buildtransitive\netstandard2.0\Microsoft.Identity.Client.NativeInterop.targets" Condition="Exists('$(NuGetPackageRoot)\microsoft.identity.client.nativeinterop\0.20.6\buildtransitive\netstandard2.0\Microsoft.Identity.Client.NativeInterop.targets')" />
+    <Import Project="$(NuGetPackageRoot)\microsoft.aspnetcore.openapi\10.0.12\build\Microsoft.AspNetCore.OpenApi.targets" Condition="Exists('$(NuGetPackageRoot)\microsoft.aspnetcore.openapi\10.0.12\build\Microsoft.AspNetCore.OpenApi.targets')" />
+    <Import Project="$(NuGetPackageRoot)\microsoft.aspnetcore.app.internal.assets\10.0.12\buildTransitive\Microsoft.AspNetCore.App.Internal.Assets.targets" Condition="Exists('$(NuGetPackageRoot)\microsoft.aspnetcore.app.internal.assets\10.0.12\buildTransitive\Microsoft.AspNetCore.App.Internal.Assets.targets')" />
+  </ImportGroup>
+</Project>
